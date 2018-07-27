@@ -8,18 +8,25 @@ jsonschema/index.js
 
 jsonschema/business_put.js
 
+--------------------------------------------------
+
 log文件配置
 
 logs/index.js
+
+-----------------------------------------------
 
 mongo配置
 
 mongo/index.js
 
+-----------------------------------------
+
 postgres配置。我没装mysql，所以用postgres代替了一下
 
 postgres/index.js
 
+------------------------------------------
 
 接口
 
