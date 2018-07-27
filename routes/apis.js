@@ -4,6 +4,7 @@ const pg = require('../postgres/index');
 const logs = require('../logs/index');
 const model = require('../domain/model');
 const mongo = require('../mongo/index');
+const ajv = require('../jsonschema/index');
 const tabs = {
     user:'business_user',
 
@@ -43,8 +44,15 @@ router.get('/users', function (req, res) {
 
 });
 
+const businessSchema = require('../jsonschema/business_put');
+ajv.compile(businessSchema);
 router.put('/business', function (req, res) {
     let b = req.body;
+    let passed = ajv.validate(businessSchema, b);
+    if(!passed){
+        res.send({error:"schema error"});
+        return;
+    }
     isManager(b.manager)
     .then((res)=>{
         if(!res.isOK){
@@ -89,7 +97,7 @@ function saveBusiness(doc) {
     return p;
 }
 function onError(alias, err) {
-    console.error(alias, err);
+    // console.error(alias, err);
     logs.error(alias, err);
 }
 module.exports = router;
